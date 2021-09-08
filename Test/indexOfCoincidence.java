@@ -1,35 +1,44 @@
 import java.util.Scanner;
 
 public class indexOfCoincidence {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        String cypherText = sc.nextLine();
-        sc.close();
 
-        cypherText.toLowerCase();
-        double ic = 0;
-
-
-
+    public static double[] getCharFreq(String cypherString) {
         double pArr[] = new double[26];
         for(int i = 0; i < pArr.length; i++){
             pArr[i] = 0;
         }
 
 
-        //calculate the frequency of each char
-        for(int i = 0; i < cypherText.length(); i++){
-            pArr[cypherText.charAt(i)- 'a']++;
+        //Count individial char
+        for(int i = 0; i < cypherString.length(); i++){
+            pArr[cypherString.charAt(i)- 'a']++;
         }
+
+        return pArr;
+
+    }
+
+    public static double getIC(double[] pArr, String cypherString) {
+        double ic = 0;
+        //calculate IC
         for(int i = 0; i < pArr.length; i++){
-            pArr[i] = pArr[i]/pArr.length;
+            //ic += (pArr[i]/pArr.length) * ((pArr[i] - 1)/(pArr.length));
+            ic += (pArr[i]*(pArr[i]-1))/(cypherString.length()*(cypherString.length()-1));
+            
         }
+        return ic;
+    }
 
-        for (double d : pArr) {
-            System.out.println(d);
-        }
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String cypherText = sc.nextLine();
+        sc.close();
 
-        System.out.println(ic);
+        cypherText.toLowerCase();
+        double pArr[] = getCharFreq(cypherText);
+
+        double ic = getIC(pArr, cypherText);
         
+        System.out.println(ic);
     }
 }
