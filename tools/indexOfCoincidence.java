@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 public class indexOfCoincidence {
 
+
+    /* 
+        A method to count the occurances of each letter in a cypher-text
+    */
     public static double[] getCharFreq(String cypherString) {
         double pArr[] = new double[26];
         for(int i = 0; i < pArr.length; i++){
@@ -20,6 +24,9 @@ public class indexOfCoincidence {
 
     }
 
+    /* 
+        Calculates the Index of Coincidence
+    */
     public static double getIC(double[] pArr, String cypherString) {
         double ic = 0;
         //calculate IC
@@ -38,7 +45,6 @@ public class indexOfCoincidence {
 
         cypherText.toLowerCase();
         double pArr[] = getCharFreq(cypherText);
-
         double ic = getIC(pArr, cypherText);
         
         System.out.println(ic);
