@@ -10,6 +10,7 @@ public class VigenereKeywordLength {
         ArrayList<ArrayList<String>> sequences = new ArrayList<ArrayList<String>>();
 
         for (int i = 0; i < primes.length; i++) {
+
             if (halfpoint < primes[i]) {
                 break;
             }
@@ -27,9 +28,26 @@ public class VigenereKeywordLength {
                 currentSequence = currentSequence + cypherText.charAt(j);
                 sequence.add(sequenceIndex, currentSequence);
             }
+
+            sequences.add(sequence);
         }
         return sequences;
     }
-    
 
+    public static void main(String[] args) {
+        
+        String cypherText = "vptzmdrttzysubxaykkwcjmgjmgpwreqeoiivppalrujtlrzpchljftupucywvsyiuuwufirtaxagfpaxzxjqnhbfjvqibxzpotciiaxahmevmmagyczpjxvtndyeuknulvvpbrptygzilbkeppyetvmgpxuknulvjhzdtgrgapygzrptymevppaxygkxwlvtiawlrdmipweqbhpqgngioirnxwhfvvawpjkglxamjewbwpvvmafnlojalh";
+
+        VigenereKeywordLength vkl = new VigenereKeywordLength();
+
+        ArrayList<ArrayList<String>> sequences = vkl.getSequences(cypherText);
+
+        for (int i = 0; i < sequences.size(); i++) {
+            // for (int j = 0; j < sequences.get(i).size(); j++) {
+            //     System.out.println(sequences.get(i).get(j));
+            // }
+
+            System.out.println(sequences.get(i));
+        }
+    }
 }
