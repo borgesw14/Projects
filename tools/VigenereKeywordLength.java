@@ -78,11 +78,4 @@ public class VigenereKeywordLength {
 
         return probableKeyLengths;
     }
-
-    public static void main(String[] args) {
-        
-        
-
-
-    }
 }
