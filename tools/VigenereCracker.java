@@ -13,6 +13,8 @@ public class VigenereCracker {
 
     /* 
         generates all 26 possible ceaser ciphers from the sequence
+        input: an encrypted ceaser cipher sequence
+        output: all 26 possible ciphers
     */
     public static String[] generateCeaserCiphers(String sequence) {
         String[] ceasersCiphers = new String[26];
