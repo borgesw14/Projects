@@ -96,9 +96,9 @@ public class VigenereKeywordLength {
 
             System.out.print("if key length were " + sequences.get(i).size() + ": \t");
 
-            /* for (int j = 0; j < sequences.get(i).size(); j++) {
+            for (int j = 0; j < sequences.get(i).size(); j++) {
                 System.out.println(sequences.get(i).get(j));
-            } */
+            }
 
             System.out.println(vkl.getAvgIC(sequences.get(i)));
             avgICValues[i] = vkl.getAvgIC(sequences.get(i));

@@ -47,7 +47,7 @@ public class VigenereCracker {
     }
 
     public static void main(String[] args) {
-        String str = "zkrolyhvlqdslqdsoh";
+        String str = "fawlsyautmzkdlfvfmscsuxukgwvw";
         String[] ciphers = generateCeaserCiphers(str);
 
         for (int i = 0; i < ciphers.length; i++) {
