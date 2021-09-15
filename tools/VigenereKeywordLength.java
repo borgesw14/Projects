@@ -56,7 +56,7 @@ public class VigenereKeywordLength {
     }
 
     // return the most probable key lengths based on avera
-    public static ArrayList<Integer> getProbableKeyLengths(double[] avgICValues) {
+    public ArrayList<Integer> getProbableKeyLengths(double[] avgICValues) {
         ArrayList<Integer> probableKeyLengths = new ArrayList<Integer>();
         double total = 0;
         double percentDiffCutoff = .2; //cutt off for percent difference required to be a probable key
@@ -81,36 +81,7 @@ public class VigenereKeywordLength {
 
     public static void main(String[] args) {
         
-        String cypherText = "vptnvffuntshtarptymjwzirappljmhhqvsubwlzzygvtyitarptyiougxiuydtgzhhvvmumshwkzgstfmekvmpkswdgbilvjljmglmjfqwioiivknulvvfemioiemojtywdsajtwmtcgluysdsumfbieugmvalvxkjduetukatymvkqzhvqvgvptytjwwldyeevquhlulwpkt";
-
-        cypherText = cypherText.toLowerCase();
-        cypherText = cypherText.replaceAll("//s", "");
-
-        VigenereKeywordLength vkl = new VigenereKeywordLength();
-
-        ArrayList<ArrayList<String>> sequences = vkl.getSequences(cypherText);
-
-        double avgICValues[] = new double[numOfSequences - 1];
-
-        for (int i = 0; i < sequences.size(); i++) {
-
-            System.out.print("if key length were " + sequences.get(i).size() + ": \t");
-
-            for (int j = 0; j < sequences.get(i).size(); j++) {
-                System.out.println(sequences.get(i).get(j));
-            }
-
-            System.out.println(vkl.getAvgIC(sequences.get(i)));
-            avgICValues[i] = vkl.getAvgIC(sequences.get(i));
-            //System.out.println(sequences.get(i));
-        }
-
-        ArrayList<Integer> probableKeylengths = getProbableKeyLengths(avgICValues);
-
-        System.out.print("Probable Key Lenghts: ");
-        for (Integer integer : probableKeylengths) {
-            System.out.print(integer+ " ");
-        }
+        
 
 
     }
