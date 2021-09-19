@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-class VignereMain{
+class VigenereMain{
     public static ArrayList<Character> encodedMsg = new ArrayList<Character>();
     public static ArrayList<String> testKeys = new ArrayList<String>();
     public static void main(String[] args){
@@ -20,7 +20,7 @@ class VignereMain{
         String fileOutName = "";
         String DesiredOut = "";
         String decoded = "";
-        vignereDecoder iDecoder = new vignereDecoder();
+        vigenereDecoder iDecoder = new vigenereDecoder();
         Scanner usrIn = new Scanner(System.in);
         
         //prompt user for file

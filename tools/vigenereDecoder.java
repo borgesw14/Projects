@@ -3,7 +3,7 @@ package tools;
 import java.util.Hashtable;
 import java.util.ArrayList;
 
-class vignereDecoder{    
+class vigenereDecoder{    
 
     public String decoder(ArrayList<Character> encodedMsg,String key)
     {
@@ -67,14 +67,14 @@ class vignereDecoder{
     }
 
     public ArrayList<String> findKey(ArrayList<Character> encodedMsg){
-        String[] chipers = VignereCracker.generateCeaserCiphers(msgToString(encodedMsg));
+        String[] chipers = VigenereCracker.generateCeaserCiphers(msgToString(encodedMsg));
         double[] chiStats = new double[26];
         ArrayList<String> probableKeys = new ArrayList<String>();
         int count = 0;
 
         for(int i = 0; i <chipers.length; i++)
         {
-            chiStats[i] = VignereCracker.getChiSqrd(chipers[i]);
+            chiStats[i] = VigenereCracker.getChiSqrd(chipers[i]);
         }
 
         //sort chiStats
