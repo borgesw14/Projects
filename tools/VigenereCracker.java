@@ -1,5 +1,7 @@
 package tools;
 
+import java.util.ArrayList;
+
 public class VigenereCracker {
     
     public static char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
@@ -36,7 +38,7 @@ public class VigenereCracker {
     }
 
     /* 
-        A program to determine the chi-squared statistic of a string of text in relation to english.
+        A method to determine the chi-squared statistic of a string of text in relation to english.
         input: a string of text
         output: chi-squared statistic
     */
@@ -44,6 +46,22 @@ public class VigenereCracker {
         double chisqrd = 0;
 
         return chisqrd;
+    }
+
+    /* 
+    A method to build a string repressenting a probable key from an array of strings representing current probable strings
+
+    */
+    public ArrayList<String> keyBuilder(ArrayList<String> currentKeys, int[] possibleChars) {
+        
+        ArrayList<String> newCurrentKeys = new ArrayList<String>();
+        for (int i = 0; i < possibleChars.length; i++) {
+            
+            for (int j = 0; j < currentKeys.size(); j++) {
+                newCurrentKeys.add(currentKeys.get(j).concat(Character.toString('a' + possibleChars[i])));
+            }
+        }
+        return newCurrentKeys;
     }
 
     public static void main(String[] args) {
