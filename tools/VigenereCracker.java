@@ -43,29 +43,31 @@ public class VigenereCracker {
         output: chi-squared statistic
     */
     public static double getChiSqrd(String currentCipher, double[] charFreqEng) {
-        double chisqrd = 0; //chisqrd total
+        double chisqrd; //chisqrd total
         double keyLength = currentCipher.length();
         double probability = 0;
         double letterfrequency = 0;
-        double expectedAppearance = 0;
+        double expectedAppearance;
         double chi; // chisqrd per each letterfrequency
 
-        // letterfrequency
         for(int i = 0; i < currentCipher.length(); i++){
-          if(currentCipher.charAt(i) == a){
+          // letterfrequency
+          if(currentCipher.charAt(i) == 'a'){
             letterfrequency++;
           }
+        }
 
-          // expectedAppearance = keylength * probability
-          expectedAppearance = keyLength * probability;
+        // expectedAppearance = keylength * probability
+        expectedAppearance = keyLength * probability;
 
-          // chisqrd = (letterfrequency - expectedAppearance)^2/expectedAppearance
-          chi = ((letterfrequency - expectedAppearance) * (letterfrequency - expectedAppearance))/expectedAppearance;
+        // chisqrd = (letterfrequency - expectedAppearance)^2/expectedAppearance
+        chi = ((letterfrequency - expectedAppearance) * (letterfrequency - expectedAppearance))/expectedAppearance;
 
-          chisqrd = chisqrd + chi;
+        chisqrd = chisqrd + chi;
 
+        for(int y = 0; y < currentCipher.length(); y++){
           // removing letters that are already calculated
-          if(currentCipher.charAt(y) == a){
+          if(currentCipher.charAt(y) == 'a'){
             currentCipher = currentCipher.replace("a", "");
           }
         }
