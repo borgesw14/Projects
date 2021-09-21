@@ -44,13 +44,23 @@ public class VigenereCracker {
     */
     public static double getChiSqrd(String currentCipher) {
         double chisqrd = 0;
-        double keyLength = 0;
+        double keyLength = currentCipher.length();
         double probability = 0;
         double letterfrequency = 0;
         double expectedAppearance = 0;
 
+        // letterfrequency
+        for(int i = 0; i < currentCipher.length(); i++){
+          if(currentCipher.charAt(i) == a){
+            letterfrequency++;
+          }
+        }
+
         // expectedAppearance = keylength * probability
+        expectedAppearance = keyLength * probability;
+
         // chisqrd = (letterfrequency - expectedAppearance)^2/expectedAppearance
+        chisqrd = ((letterfrequency - expectedAppearance) * (letterfrequency - expectedAppearance))/expectedAppearance;
 
 
         return chisqrd;
