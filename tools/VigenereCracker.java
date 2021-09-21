@@ -50,29 +50,27 @@ public class VigenereCracker {
         double expectedAppearance = 0;
         double chi; // chisqrd per each letterfrequency
 
-        for(int z = 0; z < currentCipher.length(); z++){
-          // letterfrequency
-          for(int i = 0; i < currentCipher.length(); i++){
-            if(currentCipher.charAt(i) == a){
-              letterfrequency++;
-            }
+        // letterfrequency
+        for(int i = 0; i < currentCipher.length(); i++){
+          if(currentCipher.charAt(i) == a){
+            letterfrequency++;
           }
+        }
 
-          for(int x = 0; x < currentCipher.length(); x++){
-            // expectedAppearance = keylength * probability
-            expectedAppearance = keyLength * probability;
+        for(int x = 0; x < currentCipher.length(); x++){
+          // expectedAppearance = keylength * probability
+          expectedAppearance = keyLength * probability;
 
-            // chisqrd = (letterfrequency - expectedAppearance)^2/expectedAppearance
-            chi = ((letterfrequency - expectedAppearance) * (letterfrequency - expectedAppearance))/expectedAppearance;
+          // chisqrd = (letterfrequency - expectedAppearance)^2/expectedAppearance
+          chi = ((letterfrequency - expectedAppearance) * (letterfrequency - expectedAppearance))/expectedAppearance;
 
-            chisqrd = chisqrd + chi;
-          }
+          chisqrd = chisqrd + chi;
+        }
 
-          // removing letters that are already calculated
-          for(int y = 0; x < currentCipher.length(); x++){
-            if(currentCipher.charAt(y) == a){
-              currentCipher = currentCipher.replace("a", "");
-            }
+        // removing letters that are already calculated
+        for(int y = 0; x < currentCipher.length(); x++){
+          if(currentCipher.charAt(y) == a){
+            currentCipher = currentCipher.replace("a", "");
           }
         }
 
