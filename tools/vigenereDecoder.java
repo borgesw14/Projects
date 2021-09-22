@@ -2,6 +2,7 @@ package tools;
 
 import java.util.Hashtable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 class VigenereDecoder{    
 
@@ -66,15 +67,18 @@ class VigenereDecoder{
         return eMsgString;
     }
 
-    public ArrayList<String> findKey(ArrayList<Character> encodedMsg){
-        String[] chipers = VigenereCracker.generateCeaserCiphers(msgToString(encodedMsg));
+    public ArrayList<Integer> findKey(ArrayList<Character> encodedMsg){
+        VigenereCracker mainCracker = new VigenereCracker();
+        String[] ciphers = mainCracker.generateCeaserCiphers(msgToString(encodedMsg));
+        ArrayList<String> tempCiphers = new ArrayList<String>();
         double[] chiStats = new double[26];
-        ArrayList<String> probableKeys = new ArrayList<String>();
+        ArrayList<Integer> probableKeys = new ArrayList<Integer>();
         int count = 0;
+        Collections.addAll(tempCiphers, ciphers);
 
-        for(int i = 0; i <chipers.length; i++)
+        for(int i = 0; i < ciphers.length; i++)
         {
-            chiStats[i] = VigenereCracker.getChiSqrd(chipers[i]);
+            chiStats[i] = mainCracker.getChiSqrd(ciphers[i]);
         }
 
         //sort chiStats
@@ -87,14 +91,14 @@ class VigenereDecoder{
                     chiStats[j] = chiStats[j+1];
                     chiStats[j+1] = temp;
 
-                    String sTemp = chipers[j];
-                    chipers[j] = chipers[j+1];
-                    chipers[j+1] = sTemp;
+                    String sTemp = ciphers[j];
+                    ciphers[j] = ciphers[j+1];
+                    ciphers[j+1] = sTemp;
                 }
 
-        while(probableKeys.size() <=5)
+        while(probableKeys.size() <=2)
         {
-            probableKeys.add(chipers[count]);
+            probableKeys.add(tempCiphers.indexOf(ciphers[count]));
             count++;
         }
 
