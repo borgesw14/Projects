@@ -55,6 +55,21 @@ class VigenereMain{
         ArrayList<Integer> probableKeylengths = vkl.getProbableKeyLengths(avgICValues);
 
 
+        //for each probable key length add an arraylist of keys to keyList
+        ArrayList<ArrayList<String>> keyList = new ArrayList<ArrayList<String>>();
+        for (Integer integer : probableKeylengths) {
+            for (int i = 0; i < sequences.size(); i++) {
+                /* 
+                    if the number of sequences matches the probable key length
+                    pass the sequences array to vc.getkeys and expect an array of probable keys in return
+                */
+                if(sequences.get(i).size() == integer){
+                    
+                    keyList.add(vc.getKeys(sequences.get(i)));
+                }
+            }
+        }
+
         while(hasKey == "")
         {
             //ask user if they have key for cypher text

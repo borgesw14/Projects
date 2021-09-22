@@ -110,19 +110,20 @@ public class VigenereCracker {
         return eMsgString;
     }
 
-    public ArrayList<Integer> sortChi(ArrayList<Character> encodedMsg){
-        VigenereCracker mainCracker = new VigenereCracker();
+    public ArrayList<Integer> getLowestChiIndex(String[] ciphers, double[] chiStats /* ArrayList<Character> encodedMsg */){
+        /* VigenereCracker mainCracker = new VigenereCracker();
         String[] ciphers = mainCracker.generateCeaserCiphers(msgToString(encodedMsg));
+        
+        double[] chiStats = new double[26]; */
         ArrayList<String> tempCiphers = new ArrayList<String>();
-        double[] chiStats = new double[26];
-        ArrayList<Integer> probableKeys = new ArrayList<Integer>();
+        ArrayList<Integer> originalCipherIndex = new ArrayList<Integer>();
         int count = 0;
         Collections.addAll(tempCiphers, ciphers);
 
-        for(int i = 0; i < ciphers.length; i++)
+        /* for(int i = 0; i < ciphers.length; i++)
         {
             chiStats[i] = mainCracker.getChiSqrd(ciphers[i]);
-        }
+        } */
 
         //sort chiStats
         for (int i = 0; i < chiStats.length-1; i++)
@@ -139,19 +140,50 @@ public class VigenereCracker {
                     ciphers[j+1] = sTemp;
                 }
 
-        while(probableKeys.size() <=2)
+        while(originalCipherIndex.size() <=2)
         {
-            probableKeys.add(tempCiphers.indexOf(ciphers[count]));
+            originalCipherIndex.add(tempCiphers.indexOf(ciphers[count]));
             count++;
         }
 
-        return probableKeys;
+        return originalCipherIndex;
     }
 
     /* 
-        A method that sequences the cipher 
+        a method that accepts Arraylist of sequences and returns an arraylist of possible keys
     */
+    public ArrayList<String> getKeys(ArrayList<String> sequences) {
+        ArrayList<String> keys = new ArrayList<String>();
+        ArrayList<String[]> ciphers = new ArrayList<String[]>();
+        ArrayList<double[]> chiStats = new ArrayList<double[]>();
+        ArrayList<ArrayList<Integer>> possibleCharIndexs = new ArrayList<ArrayList<Integer>>();
 
+        //generates the ceasers ciphers for each sequence
+        for (String seq : sequences) {
+            ciphers.add(generateCeaserCiphers(seq));
+        }
+
+        for (int i = 0; i < ciphers.size(); i++) {
+            double[] currentChiStats = new double[ciphers.get(i).length];
+
+            for (int j = 0; j < ciphers.get(i).length; j++) {
+                currentChiStats[j] = getChiSqrd(ciphers.get(i)[j]);
+            }
+
+            chiStats.add(currentChiStats);
+        }
+
+        for (int i = 0; i < ciphers.size(); i++) {
+            possibleCharIndexs.add(getLowestChiIndex(ciphers.get(i), chiStats.get(i)));
+        }
+
+        for (ArrayList<Integer> arrayList : possibleCharIndexs) {
+            keys = keyBuilder(keys, arrayList);
+        }
+        
+
+        return keys;
+    }
 
     public static void main(String[] args) {
         String str = "zkrolyhvlqdslqhdssohs";
