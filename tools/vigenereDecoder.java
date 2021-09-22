@@ -3,7 +3,7 @@ package tools;
 import java.util.Hashtable;
 import java.util.ArrayList;
 
-class vigenereDecoder{    
+class VigenereDecoder{    
 
     public String decoder(ArrayList<Character> encodedMsg,String key)
     {

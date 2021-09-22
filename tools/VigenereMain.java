@@ -20,7 +20,7 @@ class VigenereMain{
         String fileOutName = "";
         String DesiredOut = "";
         String decoded = "";
-        vigenereDecoder iDecoder = new vigenereDecoder();
+        VigenereDecoder iDecoder = new VigenereDecoder();
         Scanner usrIn = new Scanner(System.in);
         
         //prompt user for file
