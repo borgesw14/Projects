@@ -21,6 +21,7 @@ class VigenereMain{
         String DesiredOut = "";
         String decoded = "";
         VigenereDecoder iDecoder = new VigenereDecoder();
+        VigenereCracker vc = new VigenereCracker();
         Scanner usrIn = new Scanner(System.in);
         
         //prompt user for file
@@ -33,6 +34,25 @@ class VigenereMain{
         System.out.println("enter desired output file name:");
         DesiredOut = usrIn.nextLine();
         
+        //get key lengths
+        VigenereKeywordLength vkl = new VigenereKeywordLength();
+        ArrayList<ArrayList<String>> sequences = vkl.getSequences(vc.msgToString(encodedMsg));
+
+        double avgICValues[] = new double[VigenereKeywordLength.numOfSequences - 1];
+
+        for (int i = 0; i < sequences.size(); i++) {
+
+            for (int j = 0; j < sequences.get(i).size(); j++) {
+                System.out.println(sequences.get(i).get(j));
+            }
+
+            System.out.print("if key length were " + sequences.get(i).size() + ": \t");
+            System.out.println(vkl.getAvgIC(sequences.get(i)));
+            avgICValues[i] = vkl.getAvgIC(sequences.get(i));
+            //System.out.println(sequences.get(i));
+        }
+
+        ArrayList<Integer> probableKeylengths = vkl.getProbableKeyLengths(avgICValues);
 
 
         while(hasKey == "")
