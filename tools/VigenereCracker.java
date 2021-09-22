@@ -18,7 +18,7 @@ public class VigenereCracker {
         input: an encrypted ceaser cipher sequence
         output: all 26 possible ciphers
     */
-    public  String[] generateCeaserCiphers(String sequence) {
+    public String[] generateCeaserCiphers(String sequence) {
         String[] ceasersCiphers = new String[26];
 
         for (int i = 0; i < 26; i++) {
@@ -42,7 +42,7 @@ public class VigenereCracker {
         input: a string of text
         output: chi-squared statistic
     */
-    public static double getChiSqrd(String currentCipher) {
+    public double getChiSqrd(String currentCipher) {
         double chisqrd; //chisqrd values 
         double keyLength = currentCipher.length();
         double letterfrequency = 0;
@@ -107,7 +107,7 @@ public class VigenereCracker {
         String[] ciphers = vc.generateCeaserCiphers(str);
 
         for (int i = 0; i < ciphers.length; i++) {
-            getChiSqrd(ciphers[i]);
+            vc.getChiSqrd(ciphers[i]);
         }
     }
 }
