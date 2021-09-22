@@ -72,7 +72,7 @@ public class VigenereCracker {
               for(int y = 0; y < currentCipher.length(); y++){
                 // removing letters that are already calculated
                 if(currentCipher.charAt(y) == ch){
-                  currentCipher = currentCipher.replace(ch, "");
+                  currentCipher = currentCipher.replace(ch, ' ');
                 }
               }
               count++;
