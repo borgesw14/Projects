@@ -216,7 +216,7 @@ public class VigenereCracker {
         VigenereKeywordLength vkl = new VigenereKeywordLength();
         VigenereCracker vc = new VigenereCracker();
         ArrayList<ArrayList<String>> sequences = vkl.getSequences(
-                "bwpglvlecelkkicjikhalgnahkfyalgccpxvwzxcbtzswttitqrheewasvptyignipkkuvvnapgjqizxrgkwqvtuekbvrwvslvxhkmplxcmjbipgexalcbiitbnhrucbwvqrljfkhpn");
+                "mvwjmgsstdosnutzwyxpwctlhcjmoiywbhrzahzgatshffoiczsomdflrvqdulvkbrfmghrphalgzchqvbulkatfijloigkaptjxzepleyiuhtmpiilwkalajwalswalvummpxntzrqbioekaljgtihrpxtsvqduebbuxqtdciwhymtmcleuelvctalqfmpspapuhkahxqvtweimpgwtpyppplvgiqosiklrvbdomjvvpfxglgzllfwbpkqzkhfngqhprgjifuxuhyxdeuqihovbaxjmbvwkilvhmravvtzspqcneewvfumgcmezteepxuikahxvptdsieklcahlieubxcapssmxylgedbpuahzgxahgvwomoatsjzghjcthltflpxkwcoiexcitaevovhmxjmhvjkxytcahpselzexmlpxytnmdmpuhrluigzioipplvgistmitipgbwprxlmstbwlssllvxmglbtxspgvimsiwyeyqcnxyxciktuysdflruudammxzeplpjxzhuwdcimsimoivzpprvwyicaduiimvefuxawlvompbgbwzhuwkvivlzlvapltsmttaicvsmmexscclybwkxkxguelvrflrvepzxfbuxtwsbgvtkmubghgkbukhirasipomepbpkymaltwlhhfnixwxdueceomuutuxreyiucaawxkpxkvpzielpxkdtprjmyyomcasitjvckzprfglshpxzsngomipevavksipatzafnshpwiiidhyifqhayiupribwhrrlavqvvlqfmpspqchrrmbvgajjlrlomuickcvmalgztdejubxqvtdsdtuxqpxteewalcblvqrgdeubwlprmlmtmcleuelvqnsbfzhbwcvsxyvlamqvpipvflqqzn");
 
         double avgICValues[] = new double[VigenereKeywordLength.numOfSequences - 1];
 
