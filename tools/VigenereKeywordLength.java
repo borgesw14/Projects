@@ -29,11 +29,11 @@ public class VigenereKeywordLength {
 
             for (int j = 0; j < cypherText.length(); j++) {
                 //first index
-                int sequenceIndex = (j+1) % i;
-
-                String currentSequence = sequence.remove(sequenceIndex);
+                int sequenceIndex = (j) % i;
+                //System.out.println(sequenceIndex);
+                String currentSequence = sequence.get(sequenceIndex);
                 currentSequence = currentSequence + cypherText.charAt(j);
-                sequence.add(sequenceIndex, currentSequence);
+                sequence.set(sequenceIndex, currentSequence);
             }
 
             sequences.add(sequence);

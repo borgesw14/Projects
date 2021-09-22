@@ -22,18 +22,17 @@ public class VigenereCracker {
     public String[] generateCeaserCiphers(String sequence) {
         String[] ceasersCiphers = new String[26];
 
-        for (int i = 0; i < 26; i++) {
+        for (int i = 25; i >= 0; i--) {
             StringBuilder result = new StringBuilder();
-            for (char character : sequence.toCharArray()) {
-
-                int originalAlphabetPosition = character - 'a';
-                int newAlphabetPosition = (originalAlphabetPosition + i) % 26;
-                char newCharacter = (char) ('a' + newAlphabetPosition);
-                result.append(newCharacter);
-
+            for (int j=0; j<sequence.length(); j++)
+            {
+                {
+                    char ch = (char)(((int)sequence.charAt(j) + i - 97) % 26 + 97);
+                    result.append(ch);
+                }
             }
-
-            ceasersCiphers[i] = result.toString();
+            //System.out.println(result.toString());
+            ceasersCiphers[(25 - i + 1) % 26] = result.toString();
         }
         return ceasersCiphers;
     }
@@ -117,7 +116,6 @@ public class VigenereCracker {
         for (int i = 0; i < possibleChars.size(); i++) {
 
             for (int j = 0; j < currentKeys.size(); j++) {
-                // System.out.println(j);
                 newCurrentKeys.add(currentKeys.get(j) + Character.toString('a' + possibleChars.get(i)));
             }
             if (currentKeys.size() == 0) {
@@ -196,14 +194,16 @@ public class VigenereCracker {
             for (int j = 0; j < ciphers.get(i).length; j++) {
                 currentChiStats[j] = getChiSqrd(ciphers.get(i)[j]);
             }
-
+            for (int j = 0; j < currentChiStats.length; j++) {
+                System.out.println(j + " " + ciphers.get(i)[j] + " " + currentChiStats[j]);
+            }
             chiStats.add(currentChiStats);
         }
 
         for (int i = 0; i < ciphers.size(); i++) {
             possibleCharIndexs.add(getLowestChiIndex(ciphers.get(i), chiStats.get(i)));
         }
-        System.out.println(possibleCharIndexs);
+        //System.out.println(possibleCharIndexs);
 
         for (ArrayList<Integer> arrayList : possibleCharIndexs) {
             keys = new ArrayList<String>(keyBuilder(keys, arrayList));
@@ -216,7 +216,7 @@ public class VigenereCracker {
         VigenereKeywordLength vkl = new VigenereKeywordLength();
         VigenereCracker vc = new VigenereCracker();
         ArrayList<ArrayList<String>> sequences = vkl.getSequences(
-                "mvwjmgsstdosnutzwyxpwctlhcjmoiywbhrzahzgatshffoiczsomdflrvqdulvkbrfmghrphalgzchqvbulkatfijloigkaptjxzepleyiuhtmpiilwkalajwalswalvummpxntzrqbioekaljgtihrpxtsvqduebbuxqtdciwhymtmcleuelvctalqfmpspapuhkahxqvtweimpgwtpyppplvgiqosiklrvbdomjvvpfxglgzllfwbpkqzkhfngqhprgjifuxuhyxdeuqihovbaxjmbvwkilvhmravvtzspqcneewvfumgcmezteepxuikahxvptdsieklcahlieubxcapssmxylgedbpuahzgxahgvwomoatsjzghjcthltflpxkwcoiexcitaevovhmxjmhvjkxytcahpselzexmlpxytnmdmpuhrluigzioipplvgistmitipgbwprxlmstbwlssllvxmglbtxspgvimsiwyeyqcnxyxciktuysdflruudammxzeplpjxzhuwdcimsimoivzpprvwyicaduiimvefuxawlvompbgbwzhuwkvivlzlvapltsmttaicvsmmexscclybwkxkxguelvrflrvepzxfbuxtwsbgvtkmubghgkbukhirasipomepbpkymaltwlhhfnixwxdueceomuutuxreyiucaawxkpxkvpzielpxkdtprjmyyomcasitjvckzprfglshpxzsngomipevavksipatzafnshpwiiidhyifqhayiupribwhrrlavqvvlqfmpspqchrrmbvgajjlrlomuickcvmalgztdejubxqvtdsdtuxqpxteewalcblvqrgdeubwlprmlmtmcleuelvqnsbfzhbwcvsxyvlamqvpipvflqqzn");
+                "vptnvffuntshtarptymjwzirappljmhhqvsubwlzzygvtyitarptyiougxiuydtgzhhvvmumshwkzgstfmekvmpkswdgbilvjljmglmjfqwioiivknulvvfemioiemojtywdsajtwmtcgluysdsumfbieugmvalvxkjduetukatymvkqzhvqvgvptytjwwldyeevquhlulwpkt");
 
         double avgICValues[] = new double[VigenereKeywordLength.numOfSequences - 1];
 
@@ -236,6 +236,7 @@ public class VigenereCracker {
                  */
                 if (sequences.get(i).size() == integer) {
                     keyList.add(vc.getKeys(sequences.get(i)));
+                    //System.out.println(sequences.get(i));
                 }
             }
         }
