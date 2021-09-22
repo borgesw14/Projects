@@ -83,15 +83,6 @@ public class VigenereCracker {
         return chisqrd;
     }
 
-<<<<<<< HEAD
-    /* 
-        
-    */
-    public String[] getKeys(char chr, String[] currentStrings) {
-        
-
-        return currentStrings;
-=======
     /*
     A method to build a string repressenting a probable key from an array of strings representing current probable strings
 
@@ -106,7 +97,6 @@ public class VigenereCracker {
             }
         }
         return newCurrentKeys;
->>>>>>> 0ef521b2037efc6430ace8a3cb1e68c1e1509324
     }
 
     public static void main(String[] args) {
