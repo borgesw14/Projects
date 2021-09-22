@@ -18,7 +18,7 @@ public class VigenereCracker {
         input: an encrypted ceaser cipher sequence
         output: all 26 possible ciphers
     */
-    public static String[] generateCeaserCiphers(String sequence) {
+    public  String[] generateCeaserCiphers(String sequence) {
         String[] ceasersCiphers = new String[26];
 
         for (int i = 0; i < 26; i++) {
@@ -78,10 +78,20 @@ public class VigenereCracker {
                 }
               }
         }
+>>>>>>> 0ef521b2037efc6430ace8a3cb1e68c1e1509324
 
         return chisqrd;
     }
 
+<<<<<<< HEAD
+    /* 
+        
+    */
+    public String[] getKeys(char chr, String[] currentStrings) {
+        
+
+        return currentStrings;
+=======
     /*
     A method to build a string repressenting a probable key from an array of strings representing current probable strings
 
@@ -96,11 +106,14 @@ public class VigenereCracker {
             }
         }
         return newCurrentKeys;
+>>>>>>> 0ef521b2037efc6430ace8a3cb1e68c1e1509324
     }
 
     public static void main(String[] args) {
-        String str = "fawlsyautmzkdlfvfmscsuxukgwvw";
-        String[] ciphers = generateCeaserCiphers(str);
+        String str = "zkrolyhvlqdslqhdssohs";
+        VigenereCracker vc = new VigenereCracker();
+
+        String[] ciphers = vc.generateCeaserCiphers(str);
 
         for (int i = 0; i < ciphers.length; i++) {
             getChiSqrd(ciphers[i]);
