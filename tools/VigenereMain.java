@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 class VigenereMain{
     public static ArrayList<Character> encodedMsg = new ArrayList<Character>();
-    public static ArrayList<Integer> testKeys = new ArrayList<Integer>();
+    public static ArrayList<String> testKeys = new ArrayList<String>();
     public static void main(String[] args){
         String fileInPath = "";
         String hasKey = "";
@@ -70,6 +70,12 @@ class VigenereMain{
             }
         }
 
+        for (ArrayList<String> arrayList : keyList) {
+            for (String string : arrayList) {
+                System.out.println(string);
+            }
+        }
+
         while(hasKey == "")
         {
             //ask user if they have key for cypher text
@@ -93,16 +99,19 @@ class VigenereMain{
             }
             else if(hasKey.equalsIgnoreCase("n"))
             {   
-                testKeys = iDecoder.findKey(encodedMsg);
-                for(int i = 0; i < testKeys.size(); i++)
-                {
-                    decoded = iDecoder.decoder(encodedMsg, testKeys.get(i));
-                    fileOutName = DesiredOut + "r" + Integer.toString(i);
-                    //check if file name has .txt typing if not, add .txt
-                    if(!fileOutName.contains(".txt"))
-                        fileOutName = fileOutName + ".txt";
-                    fileWrite(testKeys.get(i), decoded, fileOutName);
+                for (ArrayList<String> keys : keyList) {
+                    testKeys = keys;
+                    for(int i = 0; i < testKeys.size(); i++)
+                    {
+                        decoded = iDecoder.decoder(encodedMsg, testKeys.get(i));
+                        fileOutName = DesiredOut + "r" + Integer.toString(i);
+                        //check if file name has .txt typing if not, add .txt
+                        if(!fileOutName.contains(".txt"))
+                            fileOutName = fileOutName + ".txt";
+                        fileWrite(testKeys.get(i), decoded, fileOutName);
+                    }
                 }
+                
             }
             else
             {
@@ -124,19 +133,19 @@ class VigenereMain{
             fr = new FileReader(f);     //Creation of File Reader object
             BufferedReader br=new BufferedReader(fr);  //Creation of BufferedReader object
             int c = 0;             
-        try {
-            while((c = br.read()) != -1)         //Read char by Char
-     {
-                char character = (char) c;          //converting integer to char
-               
-                if(Character.isLetter(character))
-                    encodedMsg.add(Character.toLowerCase(character));
-                else
-                continue;        
-     }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                while((c = br.read()) != -1)         //Read char by Char
+                {
+                    char character = (char) c;          //converting integer to char
+                
+                    if(Character.isLetter(character))
+                        encodedMsg.add(Character.toLowerCase(character));
+                    else
+                    continue;        
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }   
