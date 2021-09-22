@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 class VigenereMain{
     public static ArrayList<Character> encodedMsg = new ArrayList<Character>();
-    public static ArrayList<String> testKeys = new ArrayList<String>();
+    public static ArrayList<Integer> testKeys = new ArrayList<Integer>();
     public static void main(String[] args){
         String fileInPath = "";
         String hasKey = "";
