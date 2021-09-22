@@ -42,7 +42,7 @@ public class VigenereCracker {
         input: a string of text
         output: chi-squared statistic
     */
-    public static double[] getChiSqrd(String currentCipher) {
+    public static double getChiSqrd(String currentCipher) {
         double chisqrd; //chisqrd values 
         double keyLength = currentCipher.length();
         double letterfrequency = 0;
@@ -77,8 +77,11 @@ public class VigenereCracker {
               }
               count++;
         }
-
-        return chiArray;
+        double sum = 0;
+        for (double d : chiArray) {
+            sum += d;
+        }
+        return sum;
     }
 
     /*
