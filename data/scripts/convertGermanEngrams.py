@@ -43,7 +43,7 @@ with open(working_dir + '/data/german/n-gram counts/german_monograms.txt', 'r') 
     res = {newKeys[i]: newValues[i] for i in range(len(newKeys))}
 
 with open(working_dir + '/data/german/single', 'w') as w:
-    sort = sorted(res.items(), key=lambda x: x[1], reverse=True)
+    sort = sorted(res.items(), key=lambda x: x[1], reverse=False)
 
     for i in sort:
 	    w.write(i[0] + " " + str(i[1]) + "\n")
