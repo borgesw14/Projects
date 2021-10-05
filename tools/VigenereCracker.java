@@ -24,14 +24,13 @@ public class VigenereCracker {
 
         for (int i = 25; i >= 0; i--) {
             StringBuilder result = new StringBuilder();
-            for (int j=0; j<sequence.length(); j++)
-            {
+            for (int j = 0; j < sequence.length(); j++) {
                 {
-                    char ch = (char)(((int)sequence.charAt(j) + i - 97) % 26 + 97);
+                    char ch = (char) (((int) sequence.charAt(j) + i - 97) % 26 + 97);
                     result.append(ch);
                 }
             }
-            //System.out.println(result.toString());
+            // System.out.println(result.toString());
             ceasersCiphers[(25 - i + 1) % 26] = result.toString();
         }
         return ceasersCiphers;
@@ -55,54 +54,15 @@ public class VigenereCracker {
         }
 
         for (int i = 0; i < charFreqCipher.length; i++) {
-            chisqrd[i] = Math.pow((charFreqCipher[i] - (charFreqEng[i] * currentCipher.length())), 2)/(charFreqEng[i] * currentCipher.length());
+            chisqrd[i] = Math.pow((charFreqCipher[i] - (charFreqEng[i] * currentCipher.length())), 2)
+                    / (charFreqEng[i] * currentCipher.length());
         }
-        
-        
+
         for (double i : chisqrd) {
             sum += i;
         }
 
         return sum;
-        /* double chisqrd; // chisqrd values
-        double keyLength = currentCipher.length();
-        double letterfrequency = 0;
-        double expectedAppearance;
-        double[] chiArray = new double[26];
-        int count = 0;
-
-        for (char ch = 'a'; ch <= 'z'; ch++) {
-            chisqrd = 0;
-
-            for (int i = 0; i < currentCipher.length(); i++) {
-                // letterfrequency
-                if (currentCipher.charAt(i) == ch) {
-                    letterfrequency++;
-                }
-            }
-
-            // expectedAppearance = keylength * probability
-            expectedAppearance = keyLength * charFreqEng[ch-'a'];
-
-            // chisqrd = (letterfrequency - expectedAppearance)^2/expectedAppearance
-            chisqrd = ((letterfrequency - expectedAppearance) * (letterfrequency - expectedAppearance))/ expectedAppearance;
-
-            chiArray[count] = chisqrd;
-
-            for (int y = 0; y < currentCipher.length(); y++) {
-                // removing letters that are already calculated
-                if (currentCipher.charAt(y) == ch) {
-                    currentCipher = currentCipher.replace(ch, ' ');
-                }
-            }
-            count++;
-        }
-        double sum = 0;
-        for (double d : chiArray) {
-            //System.out.println(d);
-            sum += d;
-        }
-        return sum; */
     }
 
     /*
@@ -145,11 +105,6 @@ public class VigenereCracker {
         ArrayList<Integer> originalCipherIndex = new ArrayList<Integer>();
         int count = 0;
         Collections.addAll(tempCiphers, ciphers);
-
-        /*
-         * for(int i = 0; i < ciphers.length; i++) { chiStats[i] =
-         * mainCracker.getChiSqrd(ciphers[i]); }
-         */
 
         // sort chiStats
         for (int i = 0; i < chiStats.length - 1; i++)
@@ -203,48 +158,12 @@ public class VigenereCracker {
         for (int i = 0; i < ciphers.size(); i++) {
             possibleCharIndexs.add(getLowestChiIndex(ciphers.get(i), chiStats.get(i)));
         }
-        //System.out.println(possibleCharIndexs);
+        // System.out.println(possibleCharIndexs);
 
         for (ArrayList<Integer> arrayList : possibleCharIndexs) {
             keys = new ArrayList<String>(keyBuilder(keys, arrayList));
         }
 
         return keys;
-    }
-
-    public static void main(String[] args) {
-        VigenereKeywordLength vkl = new VigenereKeywordLength();
-        VigenereCracker vc = new VigenereCracker();
-        ArrayList<ArrayList<String>> sequences = vkl.getSequences(
-                "vptnvffuntshtarptymjwzirappljmhhqvsubwlzzygvtyitarptyiougxiuydtgzhhvvmumshwkzgstfmekvmpkswdgbilvjljmglmjfqwioiivknulvvfemioiemojtywdsajtwmtcgluysdsumfbieugmvalvxkjduetukatymvkqzhvqvgvptytjwwldyeevquhlulwpkt");
-
-        double avgICValues[] = new double[VigenereKeywordLength.numOfSequences - 1];
-
-        for (int i = 0; i < sequences.size(); i++) {
-            avgICValues[i] = vkl.getAvgIC(sequences.get(i));
-        }
-
-        ArrayList<Integer> probableKeylengths = vkl.getProbableKeyLengths(avgICValues);
-
-        // for each probable key length add an arraylist of keys to keyList
-        ArrayList<ArrayList<String>> keyList = new ArrayList<ArrayList<String>>();
-        for (Integer integer : probableKeylengths) {
-            for (int i = 0; i < sequences.size(); i++) {
-                /*
-                 * if the number of sequences matches the probable key length pass the sequences
-                 * array to vc.getkeys and expect an array of probable keys in return
-                 */
-                if (sequences.get(i).size() == integer) {
-                    keyList.add(vc.getKeys(sequences.get(i)));
-                    //System.out.println(sequences.get(i));
-                }
-            }
-        }
-
-        for (ArrayList<String> arrayList : keyList) {
-            for (String string : arrayList) {
-                System.out.println(string);
-            }
-        }
     }
 }
