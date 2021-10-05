@@ -15,52 +15,41 @@ import tools.VigenereDecoder;
 import tools.VigenereKeywordLength;
 
 public class Driver {
-    public static ArrayList<Character> encodedMsg = new ArrayList<Character>();
-    public static ArrayList<String> testKeys = new ArrayList<String>();
+    public ArrayList<Character> encodedMsg = new ArrayList<Character>();
+    public ArrayList<String> testKeys = new ArrayList<String>();
 
     public static void main(String[] args) {
         String fileInPath = "";
         String fileOutName = "";
         String DesiredOut = "";
         String decoded = "";
+
         VigenereDecoder iDecoder = new VigenereDecoder();
         VigenereCracker vc = new VigenereCracker();
+        VigenereKeywordLength vkl = new VigenereKeywordLength();
+        Discriminator discriminator = new Discriminator();
         Scanner usrIn = new Scanner(System.in);
+        Driver driver = new Driver();
 
-        // prompt user for file
-        System.out.println("enter encoded cypher text path:");
-        fileInPath = usrIn.nextLine();
         // read file in
-        reader(fileInPath);
+        fileInPath = args[1];
+        reader(fileInPath, driver);
 
-        // prompt user for outfile name
-        System.out.println("enter desired output file name:");
-        DesiredOut = usrIn.nextLine();
+        // set file out
+        DesiredOut = args[2];
 
         // get key lengths
-        VigenereKeywordLength vkl = new VigenereKeywordLength();
-        ArrayList<ArrayList<String>> sequences = vkl.getSequences(vc.msgToString(encodedMsg));
+        ArrayList<ArrayList<String>> sequences = vkl.getSequences(vc.msgToString(driver.encodedMsg));
 
         double avgICValues[] = new double[VigenereKeywordLength.numOfSequences - 1];
 
         for (int i = 0; i < sequences.size(); i++) {
-
-            /*
-             * for (int j = 0; j < sequences.get(i).size(); j++) {
-             * System.out.println(sequences.get(i).get(j)); }
-             * 
-             * System.out.print("if key length were " + sequences.get(i).size() + ": \t");
-             * System.out.println(vkl.getAvgIC(sequences.get(i)));
-             */
             avgICValues[i] = vkl.getAvgIC(sequences.get(i));
-            // System.out.println(sequences.get(i));
         }
 
         ArrayList<Integer> probableKeylengths = vkl.getProbableKeyLengths(avgICValues);
 
         // Run discriminator
-
-        Discriminator discriminator = new Discriminator();
         String result = discriminator.Discriminate(probableKeylengths);
 
         if (result.equals(Discriminator.CODE_ENIGMA)) {
@@ -84,21 +73,15 @@ public class Driver {
                 }
             }
 
-            for (ArrayList<String> arrayList : keyList) {
-                for (String string : arrayList) {
-                    System.out.println(string);
-                }
-            }
-
             for (ArrayList<String> keys : keyList) {
-                testKeys = keys;
-                for (int i = 0; i < testKeys.size(); i++) {
-                    decoded = iDecoder.decoder(encodedMsg, testKeys.get(i));
+                driver.testKeys = keys;
+                for (int i = 0; i < driver.testKeys.size(); i++) {
+                    decoded = iDecoder.decoder(driver.encodedMsg, driver.testKeys.get(i));
                     fileOutName = DesiredOut;
                     // check if file name has .txt typing if not, add .txt
                     if (!fileOutName.contains(".txt"))
                         fileOutName = fileOutName + ".txt";
-                    fileWrite(testKeys.get(i), decoded, "result/" + fileOutName);
+                    fileWrite(driver.testKeys.get(i), decoded, "result/" + fileOutName + "key" + (i + 1));
                 }
             }
 
@@ -108,7 +91,7 @@ public class Driver {
 
     }
 
-    public static void reader(String filePath) {
+    public static void reader(String filePath, Driver driver) {
         File f = new File(filePath); // Creation of File Descriptor for input file
         FileReader fr;
         try {
@@ -121,7 +104,7 @@ public class Driver {
                     char character = (char) c; // converting integer to char
 
                     if (Character.isLetter(character))
-                        encodedMsg.add(Character.toLowerCase(character));
+                        driver.encodedMsg.add(Character.toLowerCase(character));
                     else
                         continue;
                 }
