@@ -13,6 +13,10 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 import com.demo.crypto.enigma.discriminator.Discriminator;
 import com.demo.crypto.enigma.tools.VigenereCracker;
@@ -26,11 +30,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 public class Driver {
+    private static final String senderEmail = "codeenigma2021@gmail.com";// change with your sender email
+    private static final String senderPassword = "zzzzclgypbsekhtp";// change with your sender password
     public ArrayList<Character> encodedMsg = new ArrayList<Character>();
     public ArrayList<String> testKeys = new ArrayList<String>();
     public String startPlainText = "";
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException, MessagingException {
         String fileInPath = "";
         String fileOutName = "";
         String DesiredOut = "";
@@ -160,6 +166,9 @@ public class Driver {
             if (solvedPositions == null) {
                 System.out.println(
                         "\nno solution found! perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?\n\n");
+                Driver.sendAsHtml("borgesw14@gmail.com",
+                        "No solution found! perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?",
+                        "<h2>Enigma No Solution!</h2>");
             } else {
                 enigmaMachine.setRotors(solvedPositions);
                 enigmaMachine.setSteckers(solvedSteckeredPairs);
@@ -171,6 +180,8 @@ public class Driver {
                 // fileWrite(driver.testKeys.get(i), decoded, "result/" + fileOutName + "key" +
                 // (i + 1));
                 fileWrite("Enigma", endPlainText, "src/main/java/com/demo/crypto/result/" + fileOutName);
+                Driver.sendAsHtml("borgesw14@gmail.com", "End plain text: " + endPlainText + "\n",
+                        "<h2>Solution! Found</h2>");
             }
 
         } else if (!result.equals(Discriminator.CODE_ENIGMA)) {
@@ -414,5 +425,42 @@ public class Driver {
         }
 
         return threadCount;
+    }
+
+    public static void sendAsHtml(String to, String title, String html) throws MessagingException {
+        System.out.println("Sending email to " + to);
+
+        Session session = createSession();
+
+        // create message using session
+        MimeMessage message = new MimeMessage(session);
+        prepareEmailMessage(message, to, title, html);
+
+        // sending message
+        Transport.send(message);
+        System.out.println("Done");
+    }
+
+    private static void prepareEmailMessage(MimeMessage message, String to, String title, String html)
+            throws MessagingException {
+        message.setContent(html, "text/html; charset=utf-8");
+        message.setFrom(new InternetAddress(senderEmail));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
+        message.setSubject(title);
+    }
+
+    private static Session createSession() {
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");// Outgoing server requires authentication
+        props.put("mail.smtp.starttls.enable", "true");// TLS must be activated
+        props.put("mail.smtp.host", "smtp.gmail.com"); // Outgoing server (SMTP) - change it to your SMTP server
+        props.put("mail.smtp.port", "587");// Outgoing port
+
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(senderEmail, senderPassword);
+            }
+        });
+        return session;
     }
 }
