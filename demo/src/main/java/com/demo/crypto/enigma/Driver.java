@@ -50,9 +50,46 @@ public class Driver {
         // set file out
         DesiredOut = args[1];
 
-        // get key lengths
-        ArrayList<ArrayList<String>> sequences = vkl.getSequences(vc.msgToString(driver.encodedMsg));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
+        // String startPlainText = getStartPlainText(reader);
+
+        char[] initialPositions = getInitialPositions(reader);
+
+        List<SteckerCable> steckeredPairs = getSteckeredPairs(reader);
+
+        EnigmaMachine enigmaMachine = new EnigmaMachine(initialPositions, steckeredPairs);
+
+        String cipherText;
+
+        System.out.println("Encrypt with Enigma?(Y, N)");
+        while (true) {
+            System.out.print("  => ");
+            String input = reader.readLine().trim();
+
+            if (input.equals("Y")) {
+                System.out.println("\nEncrypting the chosen plain text with rotor positions "
+                        + Arrays.toString(initialPositions) + " and steckered pairs: " + steckeredPairs);
+                for (int timer = 0; timer < driver.startPlainText.length(); timer++) {
+                    try {
+                        System.out.print("* ");
+                        Thread.sleep(15);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                cipherText = enigmaMachine.encrypt(driver.startPlainText);
+                break;
+            } else {
+                cipherText = driver.startPlainText;
+                break;
+            }
+        }
+
+        // get key lengths
+
+        ArrayList<ArrayList<String>> sequences = vkl.getSequences(cipherText.toLowerCase());
         double avgICValues[] = new double[VigenereKeywordLength.numOfSequences - 1];
 
         for (int i = 0; i < sequences.size(); i++) {
@@ -60,34 +97,9 @@ public class Driver {
         }
 
         ArrayList<Integer> probableKeylengths = vkl.getProbableKeyLengths(avgICValues);
-
         // Run discriminator
         String result = discriminator.Discriminate(probableKeylengths);
-
-        if (true || result.equals(Discriminator.CODE_ENIGMA)) {
-            // decipher for enigma
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-            // String startPlainText = getStartPlainText(reader);
-
-            char[] initialPositions = getInitialPositions(reader);
-
-            List<SteckerCable> steckeredPairs = getSteckeredPairs(reader);
-
-            System.out.println("\nEncrypting the chosen plain text with rotor positions "
-                    + Arrays.toString(initialPositions) + " and steckered pairs: " + steckeredPairs);
-            for (int timer = 0; timer < driver.startPlainText.length(); timer++) {
-                try {
-                    System.out.print("* ");
-                    Thread.sleep(15);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            EnigmaMachine enigmaMachine = new EnigmaMachine(initialPositions, steckeredPairs);
-            String cipherText = enigmaMachine.encrypt(driver.startPlainText);
-
+        if (result.equals(Discriminator.CODE_ENIGMA)) {
             System.out.println("\n\nWe encrypted your plain text to " + cipherText
                     + ". Now, let's see if we can decrypt it back by re-discovering the rotor and stecker settings (these settings are Enigma's encryption 'key').");
 
@@ -161,7 +173,7 @@ public class Driver {
                 fileWrite("Enigma", endPlainText, "src/main/java/com/demo/crypto/result/" + fileOutName);
             }
 
-        } else {
+        } else if (!result.equals(Discriminator.CODE_ENIGMA)) {
             // Decipher for Vigenere cipher
 
             // for each probable key length add an arraylist of keys to keyList

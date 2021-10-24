@@ -149,16 +149,16 @@ public class VigenereCracker {
             for (int j = 0; j < ciphers.get(i).length; j++) {
                 currentChiStats[j] = getChiSqrd(ciphers.get(i)[j]);
             }
-            for (int j = 0; j < currentChiStats.length; j++) {
-                System.out.println(j + " " + ciphers.get(i)[j] + " " + currentChiStats[j]);
-            }
+            /*
+             * for (int j = 0; j < currentChiStats.length; j++) { System.out.println(j + " "
+             * + ciphers.get(i)[j] + " " + currentChiStats[j]); }
+             */
             chiStats.add(currentChiStats);
         }
 
         for (int i = 0; i < ciphers.size(); i++) {
             possibleCharIndexs.add(getLowestChiIndex(ciphers.get(i), chiStats.get(i)));
         }
-        // System.out.println(possibleCharIndexs);
 
         for (ArrayList<Integer> arrayList : possibleCharIndexs) {
             keys = new ArrayList<String>(keyBuilder(keys, arrayList));

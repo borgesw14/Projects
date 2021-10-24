@@ -3,7 +3,7 @@ package com.demo.crypto.enigma.tools;
 import java.util.ArrayList;
 
 public class VigenereKeywordLength {
-    public static int numOfSequences = 15;
+    public static int numOfSequences = 10;
 
     /*
      * getSequences takes a cyphertext string and breaks it up into a certeain
@@ -24,7 +24,6 @@ public class VigenereKeywordLength {
             for (int j = 0; j < cypherText.length(); j++) {
                 // first index
                 int sequenceIndex = (j) % i;
-                // System.out.println(sequenceIndex);
                 String currentSequence = sequence.get(sequenceIndex);
                 currentSequence = currentSequence + cypherText.charAt(j);
                 sequence.set(sequenceIndex, currentSequence);
