@@ -166,9 +166,8 @@ public class Driver {
             if (solvedPositions == null) {
                 System.out.println(
                         "\nno solution found! perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?\n\n");
-                Driver.sendAsHtml("borgesw14@gmail.com",
-                        "No solution found! perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?",
-                        "<h2>Enigma No Solution!</h2>");
+                Driver.sendAsHtml("borgesw14@gmail.com", "No solution found!",
+                        "<h2>Enigma No Solution! Perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?</h2>");
             } else {
                 enigmaMachine.setRotors(solvedPositions);
                 enigmaMachine.setSteckers(solvedSteckeredPairs);
@@ -180,8 +179,8 @@ public class Driver {
                 // fileWrite(driver.testKeys.get(i), decoded, "result/" + fileOutName + "key" +
                 // (i + 1));
                 fileWrite("Enigma", endPlainText, "src/main/java/com/demo/crypto/result/" + fileOutName);
-                Driver.sendAsHtml("borgesw14@gmail.com", "End plain text: " + endPlainText + "\n",
-                        "<h2>Solution! Found</h2>");
+                Driver.sendAsHtml("borgesw14@gmail.com", "Solution found!",
+                        "<p>End plain text: " + endPlainText + "\n</p>");
             }
 
         } else if (!result.equals(Discriminator.CODE_ENIGMA)) {
