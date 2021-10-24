@@ -106,6 +106,11 @@ public class Driver {
         // Run discriminator
         String result = discriminator.Discriminate(probableKeylengths);
         if (result.equals(Discriminator.CODE_ENIGMA)) {
+            System.out.println("\nReciepient Email Address: ");
+
+            System.out.print("  => ");
+            String emailinput = reader.readLine().trim();
+
             System.out.println("\n\nWe encrypted your plain text to " + cipherText
                     + ". Now, let's see if we can decrypt it back by re-discovering the rotor and stecker settings (these settings are Enigma's encryption 'key').");
 
@@ -166,7 +171,7 @@ public class Driver {
             if (solvedPositions == null) {
                 System.out.println(
                         "\nno solution found! perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?\n\n");
-                Driver.sendAsHtml("borgesw14@gmail.com", "No solution found!",
+                Driver.sendAsHtml(emailinput, "No solution found!",
                         "<h2>Enigma No Solution! Perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?</h2>");
             } else {
                 enigmaMachine.setRotors(solvedPositions);
@@ -179,8 +184,7 @@ public class Driver {
                 // fileWrite(driver.testKeys.get(i), decoded, "result/" + fileOutName + "key" +
                 // (i + 1));
                 fileWrite("Enigma", endPlainText, "src/main/java/com/demo/crypto/result/" + fileOutName);
-                Driver.sendAsHtml("borgesw14@gmail.com", "Solution found!",
-                        "<p>End plain text: " + endPlainText + "\n</p>");
+                Driver.sendAsHtml(emailinput, "Solution found!", "<p>End plain text: " + endPlainText + "\n</p>");
             }
 
         } else if (!result.equals(Discriminator.CODE_ENIGMA)) {
