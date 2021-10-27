@@ -13,13 +13,21 @@ import org.apache.commons.lang3.ArrayUtils;
 public abstract class AbstractEnigmaRotor implements Steppable {
 
 	protected final char[] substitutions;
-	protected final char turnoverCharacter;
+	protected  char turnoverCharacter;
+	protected  char[] turnoverArray;
 	protected int offset; // offset of 0 = A position, offset of 1 = B position, offset of 25 = Z position.
 	protected AbstractEnigmaRotor leftRotor;
 
 	public AbstractEnigmaRotor(char initialPosition, char[] substitutions, char turnoverCharacter, AbstractEnigmaRotor leftRotor) {
 		this.substitutions = substitutions;
 		this.turnoverCharacter = turnoverCharacter;
+		this.offset = Alphabet.indexOf(initialPosition);
+		this.leftRotor = leftRotor;
+	}
+
+	public AbstractEnigmaRotor(char initialPosition, char[] substitutions, char[] turnoverArray, AbstractEnigmaRotor leftRotor) {
+		this.substitutions = substitutions;
+		this.turnoverArray = turnoverArray;
 		this.offset = Alphabet.indexOf(initialPosition);
 		this.leftRotor = leftRotor;
 	}
@@ -77,10 +85,21 @@ public abstract class AbstractEnigmaRotor implements Steppable {
 	 */
 	public void step() {
 		offset++;
+		int tempTurnOver = 0;
 
-		if (leftRotor != null && (offset == (Alphabet.indexOf(turnoverCharacter) + 1))) {
+		if(turnoverArray.length != 0)
+		{
+			for(int i =0; i < turnoverArray.length; i++)
+			{
+				if(offset == Alphabet.indexOf(turnoverArray[i]) + 1)
+					tempTurnOver = Alphabet.indexOf(turnoverArray[i]) + 1;
+			}
+		}
+
+		if ( (leftRotor != null && (offset == (Alphabet.indexOf(turnoverCharacter) + 1))) || (leftRotor !=null && (offset == tempTurnOver))) {
 			leftRotor.step();
 		}
+		
 
 		if (offset > 25) {
 			offset = 0;
