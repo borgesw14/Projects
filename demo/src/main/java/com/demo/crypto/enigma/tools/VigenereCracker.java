@@ -7,7 +7,7 @@ public class VigenereCracker {
 
     public static char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
-    /*
+    /**
      * character frequencies for the english language extracted from:
      * http://cs.wellesley.edu/~fturbak/codman/letterfreq.html
      */
@@ -15,9 +15,12 @@ public class VigenereCracker {
             0.06966, 0.00153, 0.00772, 0.04025, 0.02406, 0.06749, 0.07507, 0.01929, 0.00095, 0.05987, 0.06327, 0.09056,
             0.02758, 0.00978, 0.02360, 0.00150, 0.01974, 0.00074 };
 
-    /*
+    /**
      * generates all 26 possible ceaser ciphers from the sequence input: an
      * encrypted ceaser cipher sequence output: all 26 possible ciphers
+     * 
+     * @param sequence
+     * @return
      */
     public String[] generateCeaserCiphers(String sequence) {
         String[] ceasersCiphers = new String[26];
@@ -36,9 +39,12 @@ public class VigenereCracker {
         return ceasersCiphers;
     }
 
-    /*
+    /**
      * A method to determine the chi-squared statistic of a string of text in
      * relation to english. input: a string of text output: chi-squared statistic
+     * 
+     * @param currentCipher
+     * @return
      */
     public double getChiSqrd(String currentCipher) {
         double[] chisqrd = new double[26];
@@ -65,10 +71,13 @@ public class VigenereCracker {
         return sum;
     }
 
-    /*
+    /**
      * A method to build a string repressenting a probable key from an array of
      * strings representing current probable strings
      * 
+     * @param currentKeys
+     * @param possibleChars
+     * @return
      */
     public ArrayList<String> keyBuilder(ArrayList<String> currentKeys, ArrayList<Integer> possibleChars) {
 
@@ -85,6 +94,12 @@ public class VigenereCracker {
         return newCurrentKeys;
     }
 
+    /**
+     * 
+     * 
+     * @param encodedMsg
+     * @return
+     */
     public String msgToString(ArrayList<Character> encodedMsg) {
         String eMsgString = "";
         for (int i = 0; i < encodedMsg.size(); i++) {
@@ -93,6 +108,13 @@ public class VigenereCracker {
         return eMsgString;
     }
 
+    /**
+     * 
+     * 
+     * @param ciphers
+     * @param chiStats
+     * @return
+     */
     public ArrayList<Integer> getLowestChiIndex(String[] ciphers,
             double[] chiStats /* ArrayList<Character> encodedMsg */) {
         /*
@@ -128,10 +150,12 @@ public class VigenereCracker {
         return originalCipherIndex;
     }
 
-    /*
-     * a method that accepts Arraylist of sequences and returns an arraylist of
-     * possible keys
-     */
+   /**
+    * a method that accepts Arraylist of sequences and returns an arraylist of possible keys
+    *
+    * @param sequences
+    * @return
+    */
     public ArrayList<String> getKeys(ArrayList<String> sequences) {
         ArrayList<String> keys = new ArrayList<String>();
         ArrayList<String[]> ciphers = new ArrayList<String[]>();
