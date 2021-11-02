@@ -5,6 +5,13 @@ import java.util.ArrayList;
 
 public class VigenereDecoder {
 
+    /**
+     * 
+     * 
+     * @param encodedMsg
+     * @param key
+     * @return
+     */
     public String decoder(ArrayList<Character> encodedMsg, String key) {
         Hashtable<Character, Integer> NumTable = new Hashtable<Character, Integer>();
         Hashtable<Integer, Character> EngTable = new Hashtable<Integer, Character>();
