@@ -5,11 +5,13 @@ import java.util.ArrayList;
 public class VigenereKeywordLength {
     public static int numOfSequences = 10;
 
-    /*
+    /**
      * getSequences takes a cyphertext string and breaks it up into a certeain
      * number of sequences based on probable keylengths.
+     * 
+     * @param cypherText
+     * @return
      */
-
     public ArrayList<ArrayList<String>> getSequences(String cypherText) {
         ArrayList<ArrayList<String>> sequences = new ArrayList<ArrayList<String>>();
 
@@ -34,7 +36,12 @@ public class VigenereKeywordLength {
         return sequences;
     }
 
-    // returns the avg Index of Coincidence for each prospect key length
+    /**
+     * returns the avg Index of Coincidence for each prospect key length
+     * 
+     * @param sequence
+     * @return
+     */
     public double getAvgIC(ArrayList<String> sequence) {
 
         double avgic = 0;
@@ -48,7 +55,12 @@ public class VigenereKeywordLength {
         return avgic;
     }
 
-    // return the most probable key lengths based on avera
+    /**
+     * return the most probable key lengths based on average
+     * 
+     * @param avgICValues
+     * @return
+     */
     public ArrayList<Integer> getProbableKeyLengths(double[] avgICValues) {
         ArrayList<Integer> probableKeyLengths = new ArrayList<Integer>();
         double total = 0;
