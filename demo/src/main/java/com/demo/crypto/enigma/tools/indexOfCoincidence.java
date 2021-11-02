@@ -6,6 +6,7 @@ public class indexOfCoincidence {
 
     /**
      * A method to count the occurances of each letter in a cypher-text
+     * 
      * @param cypherString 
      */
     public static double[] getCharFreq(String cypherString) {
@@ -23,8 +24,12 @@ public class indexOfCoincidence {
 
     }
 
-    /*
+    /**
      * Calculates the Index of Coincidence
+     * 
+     * @param pArr
+     * @param cypherString
+     * @return
      */
     public static double getIC(double[] pArr, String cypherString) {
         double ic = 0;
@@ -36,7 +41,9 @@ public class indexOfCoincidence {
         }
         return ic;
     }
-
+/**
+ * 
+ */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String cypherText = sc.nextLine();
