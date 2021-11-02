@@ -4,8 +4,9 @@ import java.util.Scanner;
 
 public class indexOfCoincidence {
 
-    /*
+    /**
      * A method to count the occurances of each letter in a cypher-text
+     * @param cypherString 
      */
     public static double[] getCharFreq(String cypherString) {
         double pArr[] = new double[26];
