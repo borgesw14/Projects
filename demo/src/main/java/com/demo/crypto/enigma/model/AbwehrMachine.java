@@ -64,13 +64,12 @@ public class AbwehrMachine {
 	 * reset this Enigma machine back to its initial. this does NOT reset the rotors to the A position or clear the steckerboard -- just reset to the state this EnigmaMachine's
 	 * instantiation state.
 	 */
-    /*
+    
 	public void reset() {
 		setRotors(initialPositions);
 
-		steckerbrett.clear();
 	}
-    */
+    
 	/**
 	 * an alias for {@link #encrypt(String)}
 	 *
