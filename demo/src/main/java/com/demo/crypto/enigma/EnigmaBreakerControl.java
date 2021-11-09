@@ -174,6 +174,13 @@ public class EnigmaBreakerControl {
 		return startPlainText;
 	}
 
+	/**
+	 * This method allows for us to set the starting positions of the enigma
+	 * 
+	 * @param reader
+	 * @return
+	 * @throws IOException
+	 */
 	private static char[] getInitialPositions(final BufferedReader reader) throws IOException {
 		char[] initialPositions;
 
@@ -203,6 +210,13 @@ public class EnigmaBreakerControl {
 		return initialPositions;
 	}
 
+	/**
+	 * This method allows the user to input the number of cables that the encoded message used
+	 * 
+	 * @param reader
+	 * @return
+	 * @throws IOException
+	 */
 	private static List<SteckerCable> getSteckeredPairs(final BufferedReader reader) throws IOException {
 		List<SteckerCable> steckeredPairs;
 
@@ -234,6 +248,13 @@ public class EnigmaBreakerControl {
 		return steckeredPairs;
 	}
 
+	/**
+	 * This method allows the user to input the number of parallel threads
+	 * 
+	 * @param reader
+	 * @return
+	 * @throws IOException
+	 */
 	private static int getThreadCount(final BufferedReader reader) throws IOException {
 		int threadCount = 1;
 
