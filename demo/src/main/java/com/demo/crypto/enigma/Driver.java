@@ -36,6 +36,14 @@ public class Driver {
     public ArrayList<String> testKeys = new ArrayList<String>();
     public String startPlainText = "";
 
+    /**
+     * 
+     * 
+     * @param args
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws MessagingException
+     */
     public static void main(String[] args) throws IOException, InterruptedException, MessagingException {
         String fileInPath = "";
         String fileOutName = "";
