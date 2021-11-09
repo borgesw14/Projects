@@ -9,7 +9,8 @@ public class VigenereCracker {
 
     /**
      * character frequencies for the english language extracted from:
-     * http://cs.wellesley.edu/~fturbak/codman/letterfreq.html
+     * 
+     * @author http://cs.wellesley.edu/~fturbak/codman/letterfreq.html
      */
     public static double[] charFreqEng = { 0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, 0.06094,
             0.06966, 0.00153, 0.00772, 0.04025, 0.02406, 0.06749, 0.07507, 0.01929, 0.00095, 0.05987, 0.06327, 0.09056,
@@ -109,7 +110,7 @@ public class VigenereCracker {
     }
 
     /**
-     * 
+     * Method gets the lowest chi squared value
      * 
      * @param ciphers
      * @param chiStats
