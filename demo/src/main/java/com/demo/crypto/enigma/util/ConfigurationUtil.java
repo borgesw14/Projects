@@ -41,11 +41,11 @@ public class ConfigurationUtil {
 	 */
 	public static char[] getPositionsFromString(final String input) {
 		String trimmedInput = StringUtils.stripToNull(input);
-		if (trimmedInput != null && trimmedInput.length() == 3 && StringUtils.isAlpha(trimmedInput)) {
+		if (trimmedInput != null && (trimmedInput.length() == 3 || trimmedInput.length() == 4)  && StringUtils.isAlpha(trimmedInput)) {
 			return trimmedInput.toUpperCase().toCharArray();
 		}
 
-		throw new IllegalArgumentException("Initial positions must be specified with 3 letters. ex: ARH");
+		throw new IllegalArgumentException("Initial positions must be specified with 3 or 4 letters. ex: ARH, ARHL");
 	}
 
 	/**

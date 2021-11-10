@@ -36,6 +36,8 @@ public class Driver {
     public ArrayList<Character> encodedMsg = new ArrayList<Character>();
     public ArrayList<String> testKeys = new ArrayList<String>();
     public String startPlainText = "";
+    public static boolean AbwehrFlag = false;
+    public static boolean M3Flag = false;
 
     public static void main(String[] args) throws IOException, InterruptedException, MessagingException {
         String fileInPath = "";
@@ -68,16 +70,22 @@ public class Driver {
         EnigmaMachine enigmaMachine = new EnigmaMachine(initialPositions, steckeredPairs);
         AbwehrMachine AbwehrInst = new AbwehrMachine(initialPositions);
 
-        String cipherText;
-        String abwehrCT;
+        String cipherText = driver.startPlainText;
+        String abwehrCT = driver.startPlainText;
 
         System.out.println("Encrypt with Enigma?(Y, N)");
-        while (true) {
-            System.out.print("  => ");
+        System.out.print("  => ");
             String input = reader.readLine().trim();
 
+        while(true) {
+            
+
             if (input.equals("Y")) {
-                System.out.println("\nEncrypting the chosen plain text in the Engima M3 & G machines with rotor positions "
+                
+                System.out.println("Which machine do you want to encrypt with? Type M3 for army machine or G for Abwehr:");
+                input = reader.readLine().trim();
+
+                System.out.println("\nEncrypting the chosen plain text in the Engima machines with rotor positions "
                         + Arrays.toString(initialPositions) + " and steckered pairs: " + steckeredPairs);
                 for (int timer = 0; timer < driver.startPlainText.length(); timer++) {
                     try {
@@ -88,10 +96,46 @@ public class Driver {
                     }
                 }
 
-                cipherText = enigmaMachine.encrypt(driver.startPlainText);
-                abwehrCT = AbwehrInst.encrypt(driver.startPlainText);
+                
+
+                if(input.equalsIgnoreCase("M3"))
+                {
+                    M3Flag = true;
+                    cipherText = enigmaMachine.encrypt(driver.startPlainText);
+
+                }
+                else if(input.equalsIgnoreCase("G"))
+                {
+                    AbwehrFlag = true;
+                    abwehrCT = AbwehrInst.encrypt(driver.startPlainText);
+                }
+                else{
+                    cipherText = enigmaMachine.encrypt(driver.startPlainText);
+                    abwehrCT = AbwehrInst.encrypt(driver.startPlainText);
+                }
+
                 break;
             } else {
+
+                System.out.println("Which machine do you want to decrypt with? Type M3 for army machine or G for Abwehr:");
+                input = reader.readLine().trim();
+
+                if(input.equalsIgnoreCase("M3"))
+                {
+                    M3Flag = true;
+                    cipherText = enigmaMachine.encrypt(driver.startPlainText);
+
+                }
+                else if(input.equalsIgnoreCase("G"))
+                {
+                    AbwehrFlag = true;
+                    abwehrCT = AbwehrInst.encrypt(driver.startPlainText);
+                }
+                else{
+                    cipherText = enigmaMachine.encrypt(driver.startPlainText);
+                    abwehrCT = AbwehrInst.encrypt(driver.startPlainText);
+                }
+
                 cipherText = driver.startPlainText;
                 abwehrCT = driver.startPlainText;
                 break;
@@ -108,6 +152,7 @@ public class Driver {
         }
 
         ArrayList<Integer> probableKeylengths = vkl.getProbableKeyLengths(avgICValues);
+        
         // Run discriminator
         String result = discriminator.Discriminate(probableKeylengths);
         if (result.equals(Discriminator.CODE_ENIGMA)) {
@@ -116,8 +161,15 @@ public class Driver {
             System.out.print("  => ");
             String emailinput = reader.readLine().trim();
 
-            System.out.println("\n\nWe encrypted your plain text to " + cipherText
-                    + ". Now, let's see if we can decrypt it back by re-discovering the rotor and stecker settings (these settings are Enigma's encryption 'key').");
+            if(M3Flag == true){
+                System.out.println("\n\nWe encrypted your plain text to " + cipherText
+                + ". Now, let's see if we can decrypt it back by re-discovering the rotor and stecker settings (these settings are Enigma's encryption 'key').");
+            }
+            else{
+                System.out.println("\n\nWe encrypted your plain text to " + abwehrCT
+                + ". Now, let's see if we can decrypt it back by re-discovering the rotor and stecker settings (these settings are Enigma's encryption 'key').");
+            }
+           
 
             int threadCount = getThreadCount(reader);
             System.out.println("\nHere we go ...\n");
@@ -126,23 +178,41 @@ public class Driver {
 
             List<EnigmaBreaker> enigmaBreakers = new ArrayList<>();
             List<EnigmaBreaker> abwherBreakers = new ArrayList<>();
-            for (int threadIndex = 0; threadIndex < threadCount; threadIndex++) {
-                EnigmaBreaker enigmaBreaker = new EnigmaBreaker(cipherText, steckeredPairs.size(), threadIndex,
-                        threadCount);
-                enigmaBreakers.add(enigmaBreaker);
-                enigmaBreaker.start();
-            }
-
-            for (int threadIndex = 0; threadIndex < threadCount; threadIndex++) {
-                EnigmaBreaker enigmaBreaker = new EnigmaBreaker(abwehrCT, 0, threadIndex,
-                        threadCount);
-                abwherBreakers.add(enigmaBreaker);
-                enigmaBreaker.start();
-            }
 
             char[] solvedPositions = null;
-            char[] solvedAbwehrPos = null;
             List<SteckerCable> solvedSteckeredPairs = null;
+            char[] solvedAbwehrPos = null;
+
+            System.out.println("Which machine do you want to decrypt with? Type M3 for army machine or G for Abwehr:");
+                input = reader.readLine().trim();
+
+                if(input.equalsIgnoreCase("M3"))
+                    M3Flag = true;
+                else
+                    AbwehrFlag = true;
+
+            if(M3Flag == true)
+            { 
+                for (int threadIndex = 0; threadIndex < threadCount; threadIndex++) {
+                    EnigmaBreaker enigmaBreaker = new EnigmaBreaker(cipherText, steckeredPairs.size(), threadIndex,
+                            threadCount);
+                    enigmaBreakers.add(enigmaBreaker);
+                    enigmaBreaker.start();
+                }
+                
+
+            }
+            else if(AbwehrFlag == true)
+            {
+                for (int threadIndex = 0; threadIndex < threadCount; threadIndex++) {
+                    EnigmaBreaker enigmaBreakerG = new EnigmaBreaker(abwehrCT, 0, threadIndex,
+                            threadCount);
+                    abwherBreakers.add(enigmaBreakerG);
+                    enigmaBreakerG.start();
+                }
+
+            }
+
 
             while (true) {
                 Thread.sleep(4000);
@@ -150,108 +220,121 @@ public class Driver {
                 EnigmaBreaker stoppedEnigmaBreaker = null;
                 EnigmaBreaker stoppedAbwehrs = null;
                 boolean stillRunning = false;
-                //m3
-                for (EnigmaBreaker enigmaBreaker : enigmaBreakers) {
-                    if (enigmaBreaker.getSolvedPositions() != null) {
-                        stoppedEnigmaBreaker = enigmaBreaker;
-                        break;
-                    }
-                }
-                //m3
-                if (stoppedEnigmaBreaker == null) {
+
+               if(M3Flag == true)
+               { //m3
                     for (EnigmaBreaker enigmaBreaker : enigmaBreakers) {
-                        if (enigmaBreaker.isAlive()) {
-                            stillRunning = true;
+                        if (enigmaBreaker.getSolvedPositions() != null) {
+                            stoppedEnigmaBreaker = enigmaBreaker;
                             break;
                         }
                     }
-                }
-                
-                //m3
-                if (stoppedEnigmaBreaker != null) {
-                    System.out.println(
-                            stoppedEnigmaBreaker + " has returned with results! interrupting other threads now.\n");
+                    //m3
+                    if (stoppedEnigmaBreaker == null) {
+                        for (EnigmaBreaker enigmaBreaker : enigmaBreakers) {
+                            if (enigmaBreaker.isAlive()) {
+                                stillRunning = true;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    //m3
+                    if (stoppedEnigmaBreaker != null) {
+                        System.out.println(
+                                stoppedEnigmaBreaker + " has returned with results! interrupting other threads now.\n");
 
-                    for (EnigmaBreaker enigmaBreaker : enigmaBreakers) // first interrupt any remaining live threads
-                        enigmaBreaker.interrupt();
+                        for (EnigmaBreaker enigmaBreaker : enigmaBreakers) // first interrupt any remaining live threads
+                            enigmaBreaker.interrupt();
 
-                    // then pull the solved positions info from the thread that returned
-                    // successfully
-                    solvedPositions = stoppedEnigmaBreaker.getSolvedPositions();
-                    solvedSteckeredPairs = stoppedEnigmaBreaker.getSolvedSteckeredPairs();
-                    break;
-                } else if (!stillRunning) {
-                    break;
-                }
-
-                //abwehr
-                for (EnigmaBreaker enigmaBreaker : abwherBreakers) {
-                    if (enigmaBreaker.getSolvedPositions() != null) {
-                        stoppedAbwehrs = enigmaBreaker;
+                        // then pull the solved positions info from the thread that returned
+                        // successfully
+                        solvedPositions = stoppedEnigmaBreaker.getSolvedPositions();
+                        solvedSteckeredPairs = stoppedEnigmaBreaker.getSolvedSteckeredPairs();
+                        break;
+                    } else if (!stillRunning) {
                         break;
                     }
                 }
-                //abwehr
-                if (stoppedAbwehrs == null) {
+                else if(AbwehrFlag == true)
+                {//abwehr
                     for (EnigmaBreaker enigmaBreaker : abwherBreakers) {
-                        if (enigmaBreaker.isAlive()) {
-                            stillRunning = true;
+                        if (enigmaBreaker.getSolvedPositions() != null) {
+                            stoppedAbwehrs = enigmaBreaker;
                             break;
                         }
                     }
-                }
+                    //abwehr
+                    if (stoppedAbwehrs == null) {
+                        for (EnigmaBreaker enigmaBreaker : abwherBreakers) {
+                            if (enigmaBreaker.isAlive()) {
+                                stillRunning = true;
+                                break;
+                            }
+                        }
+                    }
 
-                //abwehr
-                if (stoppedAbwehrs != null) {
+                    //abwehr
+                    if (stoppedAbwehrs != null) {
+                        System.out.println(
+                            stoppedAbwehrs + " has returned with results! interrupting other threads now.\n");
+        
+                        for (EnigmaBreaker enigmaBreaker : enigmaBreakers) // first interrupt any remaining live threads
+                            enigmaBreaker.interrupt();
+        
+                        // then pull the solved positions info from the thread that returned
+                        // successfully
+                        solvedAbwehrPos = stoppedAbwehrs.getSolvedPositions();
+                        break;
+                    } else if (!stillRunning) {
+                        break;
+                    }
+                }
+            }
+
+            if(M3Flag == true)
+            {    if (solvedPositions == null) {
                     System.out.println(
-                        stoppedAbwehrs + " has returned with results! interrupting other threads now.\n");
-    
-                    for (EnigmaBreaker enigmaBreaker : enigmaBreakers) // first interrupt any remaining live threads
-                        enigmaBreaker.interrupt();
-    
-                    // then pull the solved positions info from the thread that returned
-                    // successfully
-                    solvedAbwehrPos = stoppedAbwehrs.getSolvedPositions();
-                    break;
-                } else if (!stillRunning) {
-                    break;
+                            "\nno solution found! perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?\n\n");
+                    //Driver.sendAsHtml(emailinput, "No solution found for either enigma!",
+                    //        "<h2>Enigma No Solution! Perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?</h2>");
+                } 
+                //m3
+                else if(solvedPositions !=null){
+                    enigmaMachine.setRotors(solvedPositions);
+                    enigmaMachine.setSteckers(solvedSteckeredPairs);
+                    endPlainText = enigmaMachine.decrypt(cipherText);
+                    System.out.println("End plain text: " + endPlainText + "\n\n");
+                    fileOutName = DesiredOut;
+                    if (!fileOutName.contains(".txt"))
+                        fileOutName = fileOutName + ".txt";
+                    // fileWrite(driver.testKeys.get(i), decoded, "result/" + fileOutName + "key" +
+                    // (i + 1));
+                    fileWrite("Enigma", endPlainText, "src/main/java/com/demo/crypto/result/" + fileOutName);
+                    //Driver.sendAsHtml(emailinput, "Solution found!", "<p>End plain text: " + endPlainText + "\n</p>");
                 }
             }
-
-            
-            
-            if (solvedPositions == null && solvedAbwehrPos == null) {
-                System.out.println(
-                        "\nno solution found! perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?\n\n");
-                Driver.sendAsHtml(emailinput, "No solution found for either enigma!",
-                        "<h2>Enigma No Solution! Perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?</h2>");
-            } 
-            //m3
-            else if(solvedPositions !=null){
-                enigmaMachine.setRotors(solvedPositions);
-                enigmaMachine.setSteckers(solvedSteckeredPairs);
-                endPlainText = enigmaMachine.decrypt(cipherText);
-                System.out.println("End plain text: " + endPlainText + "\n\n");
-                fileOutName = DesiredOut;
-                if (!fileOutName.contains(".txt"))
-                    fileOutName = fileOutName + ".txt";
-                // fileWrite(driver.testKeys.get(i), decoded, "result/" + fileOutName + "key" +
-                // (i + 1));
-                fileWrite("Enigma", endPlainText, "src/main/java/com/demo/crypto/result/" + fileOutName);
-                Driver.sendAsHtml(emailinput, "Solution found!", "<p>End plain text: " + endPlainText + "\n</p>");
-            }
-            //abwher
-            else{
-                AbwehrInst.setRotors(solvedAbwehrPos);
-                endPlainText = AbwehrInst.decrypt(abwehrCT);
-                System.out.println("End plain text: " + endPlainText + "\n\n");
-                fileOutName = DesiredOut;
-                if (!fileOutName.contains(".txt"))
-                    fileOutName = fileOutName + ".txt";
-                // fileWrite(driver.testKeys.get(i), decoded, "result/" + fileOutName + "key" +
-                // (i + 1));
-                fileWrite("Enigma", endPlainText, "src/main/java/com/demo/crypto/result/" + fileOutName);
-                Driver.sendAsHtml(emailinput, "Solution found!", "<p>End plain text: " + endPlainText + "\n</p>");
+            else if(AbwehrFlag == true)
+            { 
+                if (solvedAbwehrPos == null) {
+                    System.out.println(
+                            "\nno solution found! perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?\n\n");
+                    //Driver.sendAsHtml(emailinput, "No solution found for either enigma!",
+                    //        "<h2>Enigma No Solution! Perhaps this sample message matches multiple cribs, and the breaker chose the wrong one?</h2>");
+                } 
+                else if (solvedAbwehrPos != null ){
+                    AbwehrFlag = true;
+                    AbwehrInst.setRotors(solvedAbwehrPos);
+                    endPlainText = AbwehrInst.decrypt(abwehrCT);
+                    System.out.println("End plain text: " + endPlainText + "\n\n");
+                    fileOutName = DesiredOut;
+                    if (!fileOutName.contains(".txt"))
+                        fileOutName = fileOutName + ".txt";
+                    // fileWrite(driver.testKeys.get(i), decoded, "result/" + fileOutName + "key" +
+                    // (i + 1));
+                    fileWrite("Enigma", endPlainText, "src/main/java/com/demo/crypto/result/" + fileOutName);
+                    //Driver.sendAsHtml(emailinput, "Solution found!", "<p>End plain text: " + endPlainText + "\n</p>");
+                }
             }
         //vignere
         } else if (!result.equals(Discriminator.CODE_ENIGMA)) {
@@ -416,7 +499,7 @@ public class Driver {
 
         while (true) {
             System.out.println(
-                    "Now, enter a sequence of starting rotor positions, from left rotor to right. for example: ARH. Or, press enter for random positions: ");
+                    "Now, enter a sequence of starting rotor positions, from left rotor to right. for example: ARH. If encrypting or decrypting with engima machine, please use a four letter sequence for initial positions. Or, press enter for random positions: ");
             System.out.print("  => ");
             String input = reader.readLine().trim();
 

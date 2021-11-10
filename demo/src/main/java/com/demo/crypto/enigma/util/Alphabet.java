@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public class Alphabet {
 
+	//public static final Character[] ALPHABET_ARRAY = {'Q', 'W', 'E', 'R', 'T', 'Z', 'U', 'I', 'O', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'P', 'Y', 'X', 'C', 'V', 'B', 'N', 'M', 'L'};
 	public static final Character[] ALPHABET_ARRAY = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
 	/**
@@ -18,6 +19,33 @@ public class Alphabet {
 	private static final Map<Character, Integer> ALPHABET = new HashMap<Character, Integer>();
 
 	static {
+		/*ALPHABET.put('Q', 0);
+		ALPHABET.put('W', 1);
+		ALPHABET.put('E', 2);
+		ALPHABET.put('R', 3);
+		ALPHABET.put('T', 4);
+		ALPHABET.put('Z', 5);
+		ALPHABET.put('U', 6);
+		ALPHABET.put('I', 7);
+		ALPHABET.put('O', 8);
+		ALPHABET.put('A', 9);
+		ALPHABET.put('S', 10);
+		ALPHABET.put('D', 11);
+		ALPHABET.put('F', 12);
+		ALPHABET.put('G', 13);
+		ALPHABET.put('H', 14);
+		ALPHABET.put('J', 15);
+		ALPHABET.put('K', 16);
+		ALPHABET.put('P', 17);
+		ALPHABET.put('Y', 18);
+		ALPHABET.put('X', 19);
+		ALPHABET.put('C', 20);
+		ALPHABET.put('V', 21);
+		ALPHABET.put('B', 22);
+		ALPHABET.put('N', 23);
+		ALPHABET.put('M', 24);
+		ALPHABET.put('L', 25);
+		*/
 		ALPHABET.put('A', 0);
 		ALPHABET.put('B', 1);
 		ALPHABET.put('C', 2);

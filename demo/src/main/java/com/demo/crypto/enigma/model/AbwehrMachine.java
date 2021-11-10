@@ -5,7 +5,7 @@ import com.demo.crypto.enigma.util.Alphabet;
 import java.util.Collection;
 
 public class AbwehrMachine {
-    private static final char[] DEFAULT_INITIAL_POSITIONS = {'A', 'A', 'A'};
+    private static final char[] DEFAULT_INITIAL_POSITIONS = {'A', 'A', 'A','A'};
 	private final char[] initialPositions;
 	//private Collection<SteckerCable> initialSteckeredPairs;
 
@@ -32,7 +32,11 @@ public class AbwehrMachine {
 		middleRotor = new EnigmaGRotor2(initialPositions[1], slowRotor);
 		fastRotor = new EnigmaGRotor3(initialPositions[2], middleRotor);
 
-		reflector = new AbwehrReflector();
+		if(initialPositions.length < 4)
+			reflector = new AbwehrReflector(DEFAULT_INITIAL_POSITIONS[3]);
+		else
+			reflector = new AbwehrReflector(initialPositions[3]);
+
 
 	}
 

@@ -1,7 +1,7 @@
 package com.demo.crypto.enigma.model;
 
 public class EnigmaGRotor3 extends AbstractEnigmaRotor{
-    private static final char[] SUBSTITUTIONS = {'C', 'J', 'G', 'D', 'P', 'S', 'H', 'K', 'T', 'U', 'R', 'A', 'W', 'Z', 'X', 'F', 'M', 'Y', 'N', 'Q', 'O', 'B', 'V', 'L', 'I', 'E'};
+    private static final char[] SUBSTITUTIONS = {'U', 'Q', 'N', 'T', 'L', 'S', 'Z', 'F', 'M', 'R', 'E', 'H', 'D', 'P', 'X', 'K', 'I', 'B', 'V', 'Y', 'G', 'J', 'C', 'W', 'O', 'A'};
 	private static final char[] TURNOVER_CHARACTERS = {'U','W','X','A','E','F','H','K','M','N','R'}; // if rotor steps forward from any one of these positions, the rotor to its left will move forward
     private static char CURRENT_TURNOVER = TURNOVER_CHARACTERS[0];
 

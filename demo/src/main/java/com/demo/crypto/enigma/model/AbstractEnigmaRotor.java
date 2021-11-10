@@ -1,5 +1,6 @@
 package com.demo.crypto.enigma.model;
 
+import com.demo.crypto.enigma.Driver;
 import com.demo.crypto.enigma.util.Alphabet;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -84,25 +85,40 @@ public abstract class AbstractEnigmaRotor implements Steppable {
 	 * this one.
 	 */
 	public void step() {
-		offset++;
-		int tempTurnOver = 0;
 
-		if(turnoverArray.length != 0)
-		{
-			for(int i =0; i < turnoverArray.length; i++)
-			{
-				if(offset == Alphabet.indexOf(turnoverArray[i]) + 1)
-					tempTurnOver = Alphabet.indexOf(turnoverArray[i]) + 1;
+		if(Driver.M3Flag == true){
+			offset++;
+
+			if (leftRotor != null && (offset == (Alphabet.indexOf(turnoverCharacter) + 1))) {
+				leftRotor.step();
+			}
+
+			if (offset > 25) {
+				offset = 0;
 			}
 		}
+		else if(Driver.AbwehrFlag == true && turnoverArray != null){
+			offset++;
+			char tempTurnOver = ' ';
 
-		if ( (leftRotor != null && (offset == (Alphabet.indexOf(turnoverCharacter) + 1))) || (leftRotor !=null && (offset == tempTurnOver))) {
-			leftRotor.step();
-		}
-		
+			
+				for(int i = 0; i < turnoverArray.length; i++)
+				{
+						if(offset == Alphabet.indexOf(turnoverArray[i]))
+						{
+							tempTurnOver = turnoverArray[i];
+							if (leftRotor !=null && (offset == (Alphabet.indexOf(tempTurnOver) + 1))) {
+								leftRotor.step();
+							}		
+							break;
+						}
+				}
 
-		if (offset > 25) {
-			offset = 0;
+
+			if (offset > 25) {
+				offset = 0;
+			}
 		}
 	}
+
 }
