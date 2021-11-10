@@ -28,8 +28,8 @@ def main(argv):
         keys = []
         values = []
 
-        gerChar = ["Ä", "Ü", "Ö"]
-        engChar = ["A", "U", "O"]
+        gerChar = ["Ä", "Ü", "Ö", "ß", "CH"]
+        engChar = ["A", "U", "O", "S", "C"]
 
         for line in data:
             x = re.split("\s", line)

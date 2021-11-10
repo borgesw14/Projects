@@ -33,8 +33,8 @@ def main(argv):
         keys = []
         values = []
 
-        gerChar = ["Ä", "Ü", "Ö", "ß"]
-        engChar = ["A", "U", "O", "S"]
+        gerChar = ["Ä", "Ü", "Ö", "ß", "CH"]
+        engChar = ["A", "U", "O", "S", "C"]
        
 
         for j,c in enumerate(gerChar):
